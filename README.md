@@ -11,7 +11,6 @@ A smart agriculture solution that helps farmers predict the most suitable crop t
 - [Model Information](#model-information)
 - [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
-- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -157,14 +156,11 @@ Crop-Prediction-using-ML/
 │   ├── style.css               # Stylesheet
 │   └── farm.jpg                # Background image
 │
-└── .gitignore                  # Git ignore file
+└── └── .gitignore                  # Git ignore file
 ```
 
-## 📸 Screenshots
-
-### Web Interface
-![Crop Prediction Interface](static/farm.jpg)
-*Clean and intuitive web interface for inputting soil and environmental parameters*
+## 🤝 Contributing
+```
 
 ### Sample Prediction
 The application provides instant crop recommendations based on the input parameters:
