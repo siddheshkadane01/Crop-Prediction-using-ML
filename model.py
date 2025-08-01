@@ -1,66 +1,99 @@
-# import pandas as pd
-# from sklearn.preprocessing import StandardScaler
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.model_selection import train_test_split
-import pickle
-# #
-# # Load the csv file
-# df = pd.read_csv("Crop_recommendation.csv")
-# #
-# print(df.head())
-#
-# X = df[["N", "P", "K", "temperature","humidity","ph","rainfall"]]
-# y = df["label"]
-#
-# # Split the dataset into train and test
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=50)
-#
-# # Feature scaling
-# sc = StandardScaler()
-# X_train = sc.fit_transform(X_train)
-# X_test= sc.transform(X_test)
-#
-# # Instantiate the model
-# classifier = RandomForestClassifier()
-#
-# # Fit the model
-# classifier.fit(X_train, y_train)
-#
-# # Make pickle file of our model
-# pickle.dump(classifier, open("model.pkl", "wb"))
+"""
+Crop Prediction Model Training Script
 
-# Import necessary libraries
+This script loads the crop recommendation dataset, trains a Random Forest Classifier,
+and saves the trained model as a pickle file for use in the Flask application.
+
+Author: Siddhesh Kadane
+"""
+
 import pandas as pd
+import pickle
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
 
-# Load the dataset
-data = pd.read_csv('Crop_recommendation.csv')  # Replace 'crop_data.csv' with your dataset file
+def train_crop_prediction_model():
+    """
+    Train a Random Forest model for crop prediction
+    """
+    print("Loading dataset...")
+    # Load the dataset
+    data = pd.read_csv('Dataset/Crop_recommendation.csv')
+    
+    print(f"Dataset shape: {data.shape}")
+    print(f"Columns: {data.columns.tolist()}")
+    
+    # Split the data into features and labels
+    X = data[['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall']]
+    y = data['label']
+    
+    print(f"Features shape: {X.shape}")
+    print(f"Target classes: {y.unique()}")
+    
+    # Split the data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    print(f"Training set size: {X_train.shape[0]}")
+    print(f"Testing set size: {X_test.shape[0]}")
+    
+    # Create and train the model
+    print("Training Random Forest model...")
+    model = RandomForestClassifier(
+        n_estimators=100,
+        random_state=42,
+        max_depth=10,
+        min_samples_split=5,
+        min_samples_leaf=2
+    )
+    
+    # Train the model
+    model.fit(X_train, y_train)
+    
+    # Make predictions on test data
+    y_pred = model.predict(X_test)
+    
+    # Evaluate the model
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Model Accuracy: {accuracy:.4f}")
+    
+    # Save the trained model
+    print("Saving model...")
+    pickle.dump(model, open("model.pkl", "wb"))
+    
+    print("Model training completed and saved as 'model.pkl'")
+    
+    # Display feature importance
+    feature_names = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall']
+    importance = model.feature_importances_
+    
+    print("\nFeature Importance:")
+    for feature, imp in zip(feature_names, importance):
+        print(f"{feature}: {imp:.4f}")
+    
+    return model, accuracy
 
-# Split the data into features and labels
-X = data.iloc[:, :-1]  # Features
-y = data.iloc[:, -1]   # Labels
+def test_model_prediction():
+    """
+    Test the saved model with a sample prediction
+    """
+    print("\nTesting model with sample data...")
+    
+    # Load the saved model
+    model = pickle.load(open("model.pkl", "rb"))
+    
+    # Sample test data (N, P, K, temperature, humidity, ph, rainfall)
+    sample_data = [[90, 42, 43, 20.8, 82.0, 6.5, 202.9]]
+    
+    prediction = model.predict(sample_data)
+    print(f"Sample prediction: {prediction[0]}")
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Create the model
-model = RandomForestClassifier()
-
-# Train the model
-model.fit(X_train, y_train)
-
-# Make predictions on test data
-# predictions = model.predict(X_test)
-
-pickle.dump(model, open("model.pkl", "wb"))
-# Evaluate the model
-# accuracy = model.score(X_test, y_test)
-# print("Accuracy:", accuracy)
-
-# Example usage: Predict crop for a new set of features
-# new_features = [[117 ,32,34,26.2724184,52.12739421,6.758792552,127.1752928,]]  # Replace with your own set of features
-# predicted_crop = model.predict(new_features)
-# print("Predicted crop:", predicted_crop)
+if __name__ == "__main__":
+    # Train the model
+    model, accuracy = train_crop_prediction_model()
+    
+    # Test the model
+    test_model_prediction()
 

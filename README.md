@@ -162,34 +162,16 @@ Crop-Prediction-using-ML/
 
 ## 📸 Screenshots
 
-*Add screenshots of your web application here*
+### Web Interface
+![Crop Prediction Interface](static/farm.jpg)
+*Clean and intuitive web interface for inputting soil and environmental parameters*
+
+### Sample Prediction
+The application provides instant crop recommendations based on the input parameters:
+- **Input**: Nitrogen=90, Phosphorus=42, Potassium=43, Temperature=20.8°C, Humidity=82%, pH=6.5, Rainfall=202mm
+- **Output**: Recommended Crop: Rice
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### Steps to Contribute:
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
 **Siddhesh Kadane**
 - GitHub: [@siddheshkadane01](https://github.com/siddheshkadane01)
-
-## 🙏 Acknowledgments
-
-- Dataset contributors for providing comprehensive agricultural data
-- scikit-learn community for excellent machine learning tools
-- Flask development team for the lightweight web framework
-
----
-
-⭐ **If you found this project helpful, please give it a star!** ⭐
